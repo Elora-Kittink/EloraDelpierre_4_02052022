@@ -29,32 +29,38 @@
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="508"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="jqT-UO-Apl">
-                                                <rect key="frame" x="0.0" y="0.0" width="280" height="60.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="40.5"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Arrow Left" translatesAutoresizingMaskIntoConstraints="NO" id="uo0-tL-Q3M">
-                                                        <rect key="frame" x="132.5" y="0.0" width="15" height="15"/>
+                                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Arrow Left" translatesAutoresizingMaskIntoConstraints="NO" id="uo0-tL-Q3M">
+                                                        <rect key="frame" x="132.5" y="-15" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="EBB-ux-BlI"/>
                                                             <constraint firstAttribute="height" constant="15" id="qzi-C6-PuY"/>
                                                         </constraints>
+                                                        <variation key="heightClass=compact" hidden="NO"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Arrow Up" translatesAutoresizingMaskIntoConstraints="NO" id="rzv-Q1-u4w">
-                                                        <rect key="frame" x="132.5" y="20" width="15" height="15"/>
+                                                        <rect key="frame" x="132.5" y="0.0" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="15" id="tYK-60-awl"/>
                                                             <constraint firstAttribute="width" constant="15" id="vGo-wS-Z8C"/>
                                                         </constraints>
+                                                        <variation key="heightClass=compact" hidden="YES"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtQ-1o-b1P">
-                                                        <rect key="frame" x="69.5" y="40" width="141.5" height="20.5"/>
+                                                        <rect key="frame" x="69.5" y="20" width="141.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
+                                                <gestureRecognizers/>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="MXI-Oh-vCn" appends="YES" id="vas-qt-UBf"/>
+                                                </connections>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hW6-wA-SNg">
-                                                <rect key="frame" x="0.0" y="90.5" width="280" height="280"/>
+                                                <rect key="frame" x="0.0" y="70.5" width="280" height="280"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jgA-jY-KJ6" userLabel="Top Stack View ">
                                                         <rect key="frame" x="10" y="10" width="260" height="125"/>
@@ -112,10 +118,10 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="bottom" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6vr-9e-5lO">
-                                                <rect key="frame" x="0.0" y="400.5" width="280" height="107.5"/>
+                                                <rect key="frame" x="0.0" y="380.5" width="280" height="127.5"/>
                                                 <subviews>
                                                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kSO-ru-GR2" userLabel="view layout 1">
-                                                        <rect key="frame" x="0.0" y="24" width="83.5" height="83.5"/>
+                                                        <rect key="frame" x="0.0" y="44" width="83.5" height="83.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="layout1" translatesAutoresizingMaskIntoConstraints="NO" id="UmE-jY-e5S">
                                                                 <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
@@ -143,7 +149,7 @@
                                                         </connections>
                                                     </view>
                                                     <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pb9-Pv-JxB" userLabel="view layout 2">
-                                                        <rect key="frame" x="98.5" y="24" width="83" height="83.5"/>
+                                                        <rect key="frame" x="98.5" y="44" width="83" height="83.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="layout2" translatesAutoresizingMaskIntoConstraints="NO" id="MxX-Nh-Vbz">
                                                                 <rect key="frame" x="0.0" y="0.0" width="83" height="83.5"/>
@@ -168,7 +174,7 @@
                                                         </connections>
                                                     </view>
                                                     <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nih-Gb-kqc" userLabel="view layout 3">
-                                                        <rect key="frame" x="196.5" y="24" width="83.5" height="83.5"/>
+                                                        <rect key="frame" x="196.5" y="44" width="83.5" height="83.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="layout3" translatesAutoresizingMaskIntoConstraints="NO" id="6vx-Mt-2lY">
                                                                 <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
@@ -229,6 +235,8 @@
                         <outlet property="layout1selected" destination="iDc-QL-vEw" id="3kw-Wb-vSp"/>
                         <outlet property="layout2selected" destination="i6Z-Tk-ZnO" id="Slw-dM-LKQ"/>
                         <outlet property="layout3selected" destination="OM1-5C-pNw" id="9QN-9Z-UaE"/>
+                        <outlet property="swipeGestureRecognizer" destination="MXI-Oh-vCn" id="cDu-hM-jYe"/>
+                        <outlet property="swipeStackView" destination="jqT-UO-Apl" id="gi9-M8-gxs"/>
                         <outlet property="topLeftImage" destination="PKl-df-3w2" id="M5T-pI-TSv"/>
                     </connections>
                 </viewController>
@@ -241,11 +249,6 @@
                 <tapGestureRecognizer id="44M-gE-6AS" userLabel="topR TGR">
                     <connections>
                         <action selector="didTapImage:" destination="BYZ-38-t0r" id="q3G-jN-Xcm"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="8cw-di-Lcg" userLabel="bottomL TGR">
-                    <connections>
-                        <action selector="didTapImage:" destination="BYZ-38-t0r" id="voC-Xc-1up"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="6pa-01-AuT" userLabel="bottomR TGR">
@@ -268,6 +271,16 @@
                         <action selector="changeLayout:" destination="BYZ-38-t0r" id="X9Y-zW-yVA"/>
                     </connections>
                 </tapGestureRecognizer>
+                <tapGestureRecognizer id="8cw-di-Lcg" userLabel="bottomL TGR">
+                    <connections>
+                        <action selector="didTapImage:" destination="BYZ-38-t0r" id="voC-Xc-1up"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="MXI-Oh-vCn">
+                    <connections>
+                        <action selector="swipeFunctionWithSendr:" destination="BYZ-38-t0r" id="Zil-4D-N07"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="18.75" y="78.16901408450704"/>
         </scene>

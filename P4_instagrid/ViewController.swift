@@ -14,11 +14,13 @@ class ViewController: UIViewController {
     // global var stocking the image view tapped
     weak var imageView: UIImageView?
     
+    @IBOutlet weak var swipeStackView: UIStackView!
     @IBOutlet weak var topLeftImage: UIImageView!
     @IBOutlet weak var bottomLeftImage: UIImageView!
     @IBOutlet weak var layout1selected: UIImageView!
     @IBOutlet weak var layout2selected: UIImageView!
     @IBOutlet weak var layout3selected: UIImageView!
+    @IBOutlet var swipeGestureRecognizer: UISwipeGestureRecognizer!
     
     // function with in parameters the TGR activated
     @IBAction func didTapImage(_ sender: UITapGestureRecognizer){
@@ -74,9 +76,41 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+            super.willTransition(to: newCollection, with: coordinator)
+
+            coordinator.animate(alongsideTransition: { (context) in
+                guard let windowInterfaceOrientation = self.windowInterfaceOrientation else { return }
+
+                if windowInterfaceOrientation.isLandscape {
+                    print("je suis en paysage")
+                    self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.left
+                } else {
+                    print("je suis en portrait")
+                    self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.up
+                }
+            })
+        }
+        
+        private var windowInterfaceOrientation: UIInterfaceOrientation? {
+            return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        }
+
+    
+@IBAction func swipeFunction(sendr: UISwipeGestureRecognizer?){
+    if let swipeGesture = sendr {
+        if let image = topLeftImage.image {
+        let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+         present(activityviewcontroller, animated: true)
+     }
+      
+
+    }
+    print("j'ai swipe up")
+            }
     
 }
 
