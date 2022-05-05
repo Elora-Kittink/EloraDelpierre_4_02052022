@@ -14,6 +14,12 @@ class ViewController: UIViewController {
     // global var stocking the image view tapped
     weak var imageView: UIImageView?
     
+    @IBOutlet weak var topLeftImage: UIImageView!
+    @IBOutlet weak var bottomLeftImage: UIImageView!
+    @IBOutlet weak var layout1selected: UIImageView!
+    @IBOutlet weak var layout2selected: UIImageView!
+    @IBOutlet weak var layout3selected: UIImageView!
+    
     // function with in parameters the TGR activated
     @IBAction func didTapImage(_ sender: UITapGestureRecognizer){
         // transform the sender view in an image view
@@ -39,12 +45,27 @@ class ViewController: UIViewController {
         case 1:
             // hidden le top left
             print("change for Layout 1")
+            topLeftImage.isHidden = true
+            bottomLeftImage.isHidden = false
+            layout1selected.isHidden = false
+            layout2selected.isHidden = true
+            layout3selected.isHidden = true
         case 2:
             //hidden le bottom left
             print("change for layout 2")
+            bottomLeftImage.isHidden = true
+            topLeftImage.isHidden = false
+            layout1selected.isHidden = true
+            layout2selected.isHidden = false
+            layout3selected.isHidden = true
         case 3:
             // aucun hidden
             print("change for layout 3")
+            topLeftImage.isHidden = false
+            bottomLeftImage.isHidden = false
+            layout1selected.isHidden = true
+            layout2selected.isHidden = true
+            layout3selected.isHidden = false
         default:
             print("default")
         }
