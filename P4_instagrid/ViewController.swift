@@ -16,10 +16,13 @@ class ViewController: UIViewController {
     // global var stocking the image view tapped
     weak var imageView: UIImageView?
     
+    @IBOutlet weak var swipeLabel: UILabel!
     @IBOutlet weak var layoutComposed: UIView!
     @IBOutlet weak var swipeStackView: UIStackView!
     @IBOutlet weak var topLeftImage: UIImageView!
+    @IBOutlet weak var topRightImage: UIImageView!
     @IBOutlet weak var bottomLeftImage: UIImageView!
+    @IBOutlet weak var bottomRightImage: UIImageView!
     @IBOutlet weak var layout1selected: UIImageView!
     @IBOutlet weak var layout2selected: UIImageView!
     @IBOutlet weak var layout3selected: UIImageView!
@@ -110,17 +113,23 @@ class ViewController: UIViewController {
             print("default")
         }
         
+        toto(layoutStyle: layoutStyle)
+        }
+    
+    func toto(layoutStyle: LayoutStyle) {
         topLeftImage.isHidden = layoutStyle.topLeftImage
         bottomLeftImage.isHidden = layoutStyle.bottomLeftImageIsHidden
         layout1selected.isHidden = layoutStyle.layoutLeftSelectedIsHidden
         layout2selected.isHidden = layoutStyle.layoutCenterSelectedIsHIdden
         layout3selected.isHidden = layoutStyle.layoutRightSelectedIsHidden
+    
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
+// listen to orientation change
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
@@ -131,9 +140,11 @@ class ViewController: UIViewController {
             if windowInterfaceOrientation.isLandscape {
                 print("je suis en paysage")
                 self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.left
+                self.swipeLabel.text = "Swipe left to share"
             } else if windowInterfaceOrientation.isPortrait {
                 print("je suis en portrait")
                 self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.up
+                self.swipeLabel.text = "Swipe up to share"
             }
         })
     }
@@ -145,16 +156,23 @@ class ViewController: UIViewController {
     
     @IBAction func swipeFunction(sendr: UISwipeGestureRecognizer?){
         if sendr != nil {
-            if let image = topLeftImage.image {
+            if let image = layoutComposed?.takeScreenshot() {
                 let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
                 present(activityviewcontroller, animated: true)
+                returnInitial()
             }
-            
-            
         }
     }
     
+    func returnInitial() {
+        toto(layoutStyle: .center)
+        self.topLeftImage.image = UIImage(named: "plus")
+        self.topRightImage.image = UIImage(named: "plus")
+        self.bottomLeftImage.image = UIImage(named: "plus")
+        self.bottomRightImage.image = UIImage(named: "plus")
+    }
 }
+
 
 // extension for the pickercontroller
 
@@ -164,7 +182,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         // convert in an image and launch it in the current imageView global var
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             imageView?.image = image
-        }
+            imageView?.contentMode = .scaleAspectFill        }
         // close the window when finish
         picker.dismiss(animated: true, completion: nil)
         
@@ -175,3 +193,23 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     }
 }
 
+extension UIView {
+
+    func takeScreenshot() -> UIImage {
+
+        // Begin context
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
+
+        // Draw view in that context
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+
+        // And finally, get image
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+//        guard let image = image else {
+//            return UIImage()
+//        }
+        return image ?? UIImage()
+    }
+}

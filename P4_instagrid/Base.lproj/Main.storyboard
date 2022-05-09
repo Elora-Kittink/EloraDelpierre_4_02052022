@@ -2,9 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,17 +23,17 @@
                                     <constraint firstAttribute="height" constant="40" id="f7W-sa-Cnl"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="izG-tD-uGI" userLabel="1">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="izG-tD-uGI" userLabel="1">
                                 <rect key="frame" x="20" y="40" width="280" height="508"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Fvx-Ng-3Bp" userLabel="2">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Fvx-Ng-3Bp" userLabel="2">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="508"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="jqT-UO-Apl">
-                                                <rect key="frame" x="0.0" y="0.0" width="280" height="40.5"/>
+                                                <rect key="frame" x="69.5" y="0.0" width="141.5" height="40.5"/>
                                                 <subviews>
                                                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Arrow Left" translatesAutoresizingMaskIntoConstraints="NO" id="uo0-tL-Q3M">
-                                                        <rect key="frame" x="132.5" y="-15" width="15" height="15"/>
+                                                        <rect key="frame" x="63" y="-15" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="EBB-ux-BlI"/>
                                                             <constraint firstAttribute="height" constant="15" id="qzi-C6-PuY"/>
@@ -40,7 +41,7 @@
                                                         <variation key="heightClass=compact" hidden="NO"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Arrow Up" translatesAutoresizingMaskIntoConstraints="NO" id="rzv-Q1-u4w">
-                                                        <rect key="frame" x="132.5" y="0.0" width="15" height="15"/>
+                                                        <rect key="frame" x="63" y="0.0" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="15" id="tYK-60-awl"/>
                                                             <constraint firstAttribute="width" constant="15" id="vGo-wS-Z8C"/>
@@ -48,7 +49,7 @@
                                                         <variation key="heightClass=compact" hidden="YES"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtQ-1o-b1P">
-                                                        <rect key="frame" x="69.5" y="20" width="141.5" height="20.5"/>
+                                                        <rect key="frame" x="0.0" y="20" width="141.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -60,50 +61,52 @@
                                                 </connections>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hW6-wA-SNg">
-                                                <rect key="frame" x="0.0" y="70.5" width="280" height="280"/>
+                                                <rect key="frame" x="0.0" y="92.5" width="280" height="280"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jgA-jY-KJ6" userLabel="Top Stack View ">
                                                         <rect key="frame" x="10" y="10" width="260" height="125"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" tag="10" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="PKl-df-3w2" userLabel="topL">
+                                                            <imageView clipsSubviews="YES" tag="10" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="PKl-df-3w2" userLabel="topL">
                                                                 <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
                                                                 <connections>
                                                                     <outletCollection property="gestureRecognizers" destination="00B-Hp-7Gw" appends="YES" id="fxy-y6-y0g"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <imageView clipsSubviews="YES" tag="20" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="XsO-Mz-7gX" userLabel="topR">
+                                                            <imageView clipsSubviews="YES" tag="20" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="XsO-Mz-7gX" userLabel="topR">
                                                                 <rect key="frame" x="135" y="0.0" width="125" height="125"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
                                                                 <connections>
                                                                     <outletCollection property="gestureRecognizers" destination="44M-gE-6AS" appends="YES" id="umb-eU-9lm"/>
                                                                 </connections>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemPurpleColor"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RMe-yW-N4O" userLabel="Bottom Stack View">
                                                         <rect key="frame" x="10" y="145" width="260" height="125"/>
                                                         <subviews>
-                                                            <imageView hidden="YES" clipsSubviews="YES" tag="30" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="m4H-CG-goF" userLabel="bottomL">
+                                                            <imageView hidden="YES" clipsSubviews="YES" tag="30" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="m4H-CG-goF" userLabel="bottomL">
                                                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="125"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
                                                                 <connections>
                                                                     <outletCollection property="gestureRecognizers" destination="8cw-di-Lcg" appends="YES" id="dYN-AQ-va9"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <imageView clipsSubviews="YES" tag="40" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="yKr-rW-6RX" userLabel="bottomR">
+                                                            <imageView clipsSubviews="YES" tag="40" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="yKr-rW-6RX" userLabel="bottomR">
                                                                 <rect key="frame" x="0.0" y="0.0" width="260" height="125"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
                                                                 <connections>
                                                                     <outletCollection property="gestureRecognizers" destination="6pa-01-AuT" appends="YES" id="W5s-Er-ijQ"/>
                                                                 </connections>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                                                <color key="backgroundColor" red="0.010245381850000001" green="0.40494918819999998" blue="0.5714608431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="jgA-jY-KJ6" firstAttribute="leading" secondItem="hW6-wA-SNg" secondAttribute="leading" constant="10" id="5KB-xP-0Kf"/>
                                                     <constraint firstAttribute="bottom" secondItem="RMe-yW-N4O" secondAttribute="bottom" constant="10" id="6Jw-mC-VYq"/>
@@ -118,10 +121,10 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="bottom" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6vr-9e-5lO">
-                                                <rect key="frame" x="0.0" y="380.5" width="280" height="127.5"/>
+                                                <rect key="frame" x="0.0" y="424.5" width="280" height="83.5"/>
                                                 <subviews>
                                                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kSO-ru-GR2" userLabel="view layout 1">
-                                                        <rect key="frame" x="0.0" y="44" width="83.5" height="83.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="layout1" translatesAutoresizingMaskIntoConstraints="NO" id="UmE-jY-e5S">
                                                                 <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
@@ -131,7 +134,7 @@
                                                                 <gestureRecognizers/>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" red="0.92549020049999997" green="0.92549020049999997" blue="0.92549020049999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="3x6-Z6-QnR"/>
                                                             <constraint firstItem="UmE-jY-e5S" firstAttribute="leading" secondItem="kSO-ru-GR2" secondAttribute="leading" id="55i-8o-3t9"/>
@@ -149,24 +152,27 @@
                                                         </connections>
                                                     </view>
                                                     <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pb9-Pv-JxB" userLabel="view layout 2">
-                                                        <rect key="frame" x="98.5" y="44" width="83" height="83.5"/>
+                                                        <rect key="frame" x="98.5" y="0.0" width="83" height="83.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="layout2" translatesAutoresizingMaskIntoConstraints="NO" id="MxX-Nh-Vbz">
                                                                 <rect key="frame" x="0.0" y="0.0" width="83" height="83.5"/>
                                                             </imageView>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="selected" translatesAutoresizingMaskIntoConstraints="NO" id="i6Z-Tk-ZnO">
-                                                                <rect key="frame" x="-0.5" y="-0.5" width="83" height="83.5"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="selected" translatesAutoresizingMaskIntoConstraints="NO" id="i6Z-Tk-ZnO">
+                                                                <rect key="frame" x="0.0" y="0.0" width="83" height="83.5"/>
                                                                 <gestureRecognizers/>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="bottom" secondItem="MxX-Nh-Vbz" secondAttribute="bottom" id="2YV-FO-g3O"/>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="Hcv-dB-hvG"/>
                                                             <constraint firstAttribute="trailing" secondItem="MxX-Nh-Vbz" secondAttribute="trailing" id="LSV-Hn-D6U"/>
                                                             <constraint firstItem="MxX-Nh-Vbz" firstAttribute="top" secondItem="Pb9-Pv-JxB" secondAttribute="top" id="OQq-C7-SUb"/>
+                                                            <constraint firstAttribute="trailing" secondItem="i6Z-Tk-ZnO" secondAttribute="trailing" id="QNV-zy-U50"/>
+                                                            <constraint firstAttribute="bottom" secondItem="i6Z-Tk-ZnO" secondAttribute="bottom" id="UEy-rL-eV8"/>
                                                             <constraint firstAttribute="width" secondItem="Pb9-Pv-JxB" secondAttribute="height" multiplier="1:1" id="ZvO-Xk-4aG"/>
+                                                            <constraint firstItem="i6Z-Tk-ZnO" firstAttribute="top" secondItem="Pb9-Pv-JxB" secondAttribute="top" id="dxk-l3-8Aq"/>
+                                                            <constraint firstItem="i6Z-Tk-ZnO" firstAttribute="leading" secondItem="Pb9-Pv-JxB" secondAttribute="leading" id="tbH-YJ-3af"/>
                                                             <constraint firstItem="MxX-Nh-Vbz" firstAttribute="leading" secondItem="Pb9-Pv-JxB" secondAttribute="leading" id="u9j-93-A9h"/>
                                                         </constraints>
                                                         <connections>
@@ -174,25 +180,28 @@
                                                         </connections>
                                                     </view>
                                                     <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nih-Gb-kqc" userLabel="view layout 3">
-                                                        <rect key="frame" x="196.5" y="44" width="83.5" height="83.5"/>
+                                                        <rect key="frame" x="196.5" y="0.0" width="83.5" height="83.5"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="layout3" translatesAutoresizingMaskIntoConstraints="NO" id="6vx-Mt-2lY">
                                                                 <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
                                                             </imageView>
-                                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="selected" translatesAutoresizingMaskIntoConstraints="NO" id="OM1-5C-pNw">
-                                                                <rect key="frame" x="-0.5" y="-0.5" width="83.5" height="83.5"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="selected" translatesAutoresizingMaskIntoConstraints="NO" id="OM1-5C-pNw">
+                                                                <rect key="frame" x="0.0" y="0.0" width="83.5" height="83.5"/>
                                                                 <gestureRecognizers/>
                                                             </imageView>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
+                                                            <constraint firstItem="OM1-5C-pNw" firstAttribute="top" secondItem="Nih-Gb-kqc" secondAttribute="top" id="08r-BT-4Fe"/>
+                                                            <constraint firstAttribute="trailing" secondItem="OM1-5C-pNw" secondAttribute="trailing" id="4ql-ak-uQU"/>
                                                             <constraint firstItem="6vx-Mt-2lY" firstAttribute="leading" secondItem="Nih-Gb-kqc" secondAttribute="leading" id="656-TW-SsP"/>
                                                             <constraint firstAttribute="width" secondItem="Nih-Gb-kqc" secondAttribute="height" multiplier="1:1" id="BPU-ge-NpX"/>
                                                             <constraint firstItem="6vx-Mt-2lY" firstAttribute="top" secondItem="Nih-Gb-kqc" secondAttribute="top" id="Oi0-5s-vlK"/>
                                                             <constraint firstAttribute="bottom" secondItem="6vx-Mt-2lY" secondAttribute="bottom" id="SNI-XH-CSa"/>
                                                             <constraint firstAttribute="trailing" secondItem="6vx-Mt-2lY" secondAttribute="trailing" id="fgC-Sv-Inh"/>
+                                                            <constraint firstItem="OM1-5C-pNw" firstAttribute="leading" secondItem="Nih-Gb-kqc" secondAttribute="leading" id="oJ4-gT-4QS"/>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="oPl-ac-3VM"/>
+                                                            <constraint firstAttribute="bottom" secondItem="OM1-5C-pNw" secondAttribute="bottom" id="xSm-Vc-x4j"/>
                                                         </constraints>
                                                         <connections>
                                                             <outletCollection property="gestureRecognizers" destination="c6t-kH-SH7" appends="YES" id="Zgd-HW-sWD"/>
@@ -232,12 +241,16 @@
                     </view>
                     <connections>
                         <outlet property="bottomLeftImage" destination="m4H-CG-goF" id="dF3-i1-gYE"/>
+                        <outlet property="bottomRightImage" destination="yKr-rW-6RX" id="IX0-vI-tfX"/>
                         <outlet property="layout1selected" destination="iDc-QL-vEw" id="3kw-Wb-vSp"/>
                         <outlet property="layout2selected" destination="i6Z-Tk-ZnO" id="Slw-dM-LKQ"/>
                         <outlet property="layout3selected" destination="OM1-5C-pNw" id="9QN-9Z-UaE"/>
+                        <outlet property="layoutComposed" destination="hW6-wA-SNg" id="WkF-vT-AeY"/>
                         <outlet property="swipeGestureRecognizer" destination="MXI-Oh-vCn" id="cDu-hM-jYe"/>
+                        <outlet property="swipeLabel" destination="NtQ-1o-b1P" id="Zbz-pD-lfi"/>
                         <outlet property="swipeStackView" destination="jqT-UO-Apl" id="gi9-M8-gxs"/>
                         <outlet property="topLeftImage" destination="PKl-df-3w2" id="M5T-pI-TSv"/>
+                        <outlet property="topRightImage" destination="XsO-Mz-7gX" id="6kd-tU-Obd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -294,17 +307,5 @@
         <image name="layout2" width="27" height="27"/>
         <image name="layout3" width="27" height="27"/>
         <image name="selected" width="27" height="27"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>
