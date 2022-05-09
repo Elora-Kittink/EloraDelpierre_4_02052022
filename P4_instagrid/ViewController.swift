@@ -5,7 +5,9 @@
 //  Created by Elora on 29/04/2022.
 //
 
-//
+//PHPhotoLibrary.requestAuthorization   pour gérer le cas ou l'utilisateur de donne pas son autorisation??
+
+
 import SwiftUI
 import UIKit
 
@@ -14,6 +16,7 @@ class ViewController: UIViewController {
     // global var stocking the image view tapped
     weak var imageView: UIImageView?
     
+    @IBOutlet weak var layoutComposed: UIView!
     @IBOutlet weak var swipeStackView: UIStackView!
     @IBOutlet weak var topLeftImage: UIImageView!
     @IBOutlet weak var bottomLeftImage: UIImageView!
@@ -39,78 +42,117 @@ class ViewController: UIViewController {
         
     }
     
+    // test
+    
+    enum LayoutStyle {
+        case left, center, right
+        
+        var topLeftImage: Bool {
+            switch self {
+            case .left: return true
+            case .center: return false
+            case .right: return false
+            }
+        }
+        var bottomLeftImageIsHidden: Bool {
+            switch self {
+            case .left: return false
+            case .center: return true
+            case .right: return false
+            }
+        }
+        var layoutLeftSelectedIsHidden: Bool {
+            switch self {
+            case .left: return false
+            case .center: return true
+            case .right: return true
+            }
+        }
+        var layoutCenterSelectedIsHIdden: Bool {
+            switch self {
+            case .left: return true
+            case .center: return false
+            case .right: return true
+            }
+        }
+        var layoutRightSelectedIsHidden: Bool {
+            switch self {
+            case .left: return true
+            case .center: return true
+            case .right: return false
+            }
+        }
+        
+    }
+    
+    
+    
     // func with in parametres the TGR activated
     @IBAction func changeLayout(_ sender: UITapGestureRecognizer){
         // switch on the tag depending on the sender in parameter
-        switch sender.view?.tag {
+        
+        let layoutChosen = sender.view?.tag
+        var layoutStyle: LayoutStyle
+        
+        switch layoutChosen {
             
         case 1:
-            // hidden le top left
-            print("change for Layout 1")
-            topLeftImage.isHidden = true
-            bottomLeftImage.isHidden = false
-            layout1selected.isHidden = false
-            layout2selected.isHidden = true
-            layout3selected.isHidden = true
+            // layout left
+            layoutStyle = .left
         case 2:
-            //hidden le bottom left
-            print("change for layout 2")
-            bottomLeftImage.isHidden = true
-            topLeftImage.isHidden = false
-            layout1selected.isHidden = true
-            layout2selected.isHidden = false
-            layout3selected.isHidden = true
+            // layout center
+            layoutStyle = .center
         case 3:
-            // aucun hidden
-            print("change for layout 3")
-            topLeftImage.isHidden = false
-            bottomLeftImage.isHidden = false
-            layout1selected.isHidden = true
-            layout2selected.isHidden = true
-            layout3selected.isHidden = false
+            // layout right
+            layoutStyle = .right
         default:
+            layoutStyle = .center
             print("default")
         }
         
+        topLeftImage.isHidden = layoutStyle.topLeftImage
+        bottomLeftImage.isHidden = layoutStyle.bottomLeftImageIsHidden
+        layout1selected.isHidden = layoutStyle.layoutLeftSelectedIsHidden
+        layout2selected.isHidden = layoutStyle.layoutCenterSelectedIsHIdden
+        layout3selected.isHidden = layoutStyle.layoutRightSelectedIsHidden
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-            super.willTransition(to: newCollection, with: coordinator)
-
-            coordinator.animate(alongsideTransition: { (context) in
-                guard let windowInterfaceOrientation = self.windowInterfaceOrientation else { return }
-
-                if windowInterfaceOrientation.isLandscape {
-                    print("je suis en paysage")
-                    self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.left
-                } else {
-                    print("je suis en portrait")
-                    self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.up
-                }
-            })
-        }
+        super.willTransition(to: newCollection, with: coordinator)
         
-        private var windowInterfaceOrientation: UIInterfaceOrientation? {
-            return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-        }
-
-    
-@IBAction func swipeFunction(sendr: UISwipeGestureRecognizer?){
-    if let swipeGesture = sendr {
-        if let image = topLeftImage.image {
-        let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-         present(activityviewcontroller, animated: true)
-     }
-      
-
-    }
-    print("j'ai swipe up")
+        coordinator.animate(alongsideTransition: { (context) in
+            guard let windowInterfaceOrientation = self.windowInterfaceOrientation else { return }
+            
+            if windowInterfaceOrientation.isLandscape {
+                print("je suis en paysage")
+                self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.left
+            } else if windowInterfaceOrientation.isPortrait {
+                print("je suis en portrait")
+                self.swipeGestureRecognizer.direction = UISwipeGestureRecognizer.Direction.up
             }
+        })
+    }
+    
+    private var windowInterfaceOrientation: UIInterfaceOrientation? {
+        return UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation
+    }
+    
+    
+    @IBAction func swipeFunction(sendr: UISwipeGestureRecognizer?){
+        if sendr != nil {
+            if let image = topLeftImage.image {
+                let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                present(activityviewcontroller, animated: true)
+            }
+            
+            
+        }
+    }
     
 }
 
