@@ -113,10 +113,10 @@ class ViewController: UIViewController {
             print("default")
         }
         
-        toto(layoutStyle: layoutStyle)
+        displayLayout(layoutStyle: layoutStyle)
         }
     
-    func toto(layoutStyle: LayoutStyle) {
+    func displayLayout(layoutStyle: LayoutStyle) {
         topLeftImage.isHidden = layoutStyle.topLeftImage
         bottomLeftImage.isHidden = layoutStyle.bottomLeftImageIsHidden
         layout1selected.isHidden = layoutStyle.layoutLeftSelectedIsHidden
@@ -159,17 +159,21 @@ class ViewController: UIViewController {
             if let image = layoutComposed?.takeScreenshot() {
                 let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
                 present(activityviewcontroller, animated: true)
-                returnInitial()
+                activityviewcontroller.completionWithItemsHandler = { activity, success, items, error in
+                    self.returnInitial()
+                }
             }
         }
+      
     }
     
     func returnInitial() {
-        toto(layoutStyle: .center)
-        self.topLeftImage.image = UIImage(named: "plus")
-        self.topRightImage.image = UIImage(named: "plus")
-        self.bottomLeftImage.image = UIImage(named: "plus")
-        self.bottomRightImage.image = UIImage(named: "plus")
+        displayLayout(layoutStyle: .center)
+        self.topLeftImage.image = UIImage(named: "Plus")
+        self.topLeftImage.contentMode = .center
+        self.topRightImage.image = UIImage(named: "Plus")
+        self.bottomLeftImage.image = UIImage(named: "Plus")
+        self.bottomRightImage.image = UIImage(named: "Plus")
     }
 }
 
