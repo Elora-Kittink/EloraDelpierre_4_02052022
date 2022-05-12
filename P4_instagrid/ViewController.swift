@@ -26,7 +26,126 @@ class ViewController: UIViewController {
     @IBOutlet weak var layout1selected: UIImageView!
     @IBOutlet weak var layout2selected: UIImageView!
     @IBOutlet weak var layout3selected: UIImageView!
-    @IBOutlet var swipeGestureRecognizer: UISwipeGestureRecognizer!
+    
+    var panGestureRecognizerPortrait: UIPanGestureRecognizer!
+    var panGestureRecognizerLandscape: UIPanGestureRecognizer!
+    var isOrientationPortrait = true
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        panGestureRecognizerPortrait = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(dragSwipeUp(_:)))
+        panGestureRecognizerLandscape = UIPanGestureRecognizer(
+            target: self,
+            action: #selector(dragSwipeLeft(_:)))
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print(self.windowInterfaceOrientation.isPortrait)
+        if self.windowInterfaceOrientation.isPortrait {
+            print("je suis en portrait !")
+            self.isOrientationPortrait = true
+            swipeOrientation()
+        } else {
+            self.isOrientationPortrait = false
+            swipeOrientation()
+            print("je suis en paysage !")
+            
+        }
+    }
+    
+    func swipeOrientation(){
+        if isOrientationPortrait {
+            layoutComposed.addGestureRecognizer(panGestureRecognizerPortrait)
+            layoutComposed.removeGestureRecognizer(panGestureRecognizerLandscape)
+        } else {
+            layoutComposed.addGestureRecognizer(panGestureRecognizerLandscape)
+            layoutComposed.removeGestureRecognizer(panGestureRecognizerPortrait)
+        }
+    }
+    
+    // listen to orientation change
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { (context) in
+            
+            if self.windowInterfaceOrientation.isLandscape {
+                print("je suis en paysage")
+                self.isOrientationPortrait = false
+                self.swipeOrientation()
+                self.swipeLabel.text = "Swipe left to share"
+            } else if self.windowInterfaceOrientation.isPortrait {
+                print("je suis en portrait")
+                self.isOrientationPortrait = true
+                self.swipeOrientation()
+                self.swipeLabel.text = "Swipe up to share"
+            }
+        })
+    }
+    
+    private var windowInterfaceOrientation: UIInterfaceOrientation {
+        return UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation ?? .unknown
+    }
+    
+    @objc func dragSwipeUp(_ sender: UIPanGestureRecognizer){
+        let layoutView = sender.view!
+        let point = sender.translation(in: self.view)
+        // re paramettrer .center
+        layoutView.center = CGPoint(x: layoutView.center.x, y: layoutView.center.y + point.y)
+        // capter le mouvement du doigt dans la vue layoutComposed
+        let movement = sender.translation(in: layoutComposed)
+        // donner a la vue layoutComposed le mouvement verticale correspondant au mouvement du doigt
+        layoutComposed.transform = CGAffineTransform(translationX: 0, y: movement.y )
+        print(layoutView.center.y)
+        // si l'utilisateur a finit sont mouvement
+        if sender.state == .ended {
+            // et que layoutComposed a swipé jusqu'à être à suffisament haut
+            if layoutView.center.y < -90 {
+                // alors déclencher l'animation qui envoie le layout loin et lance swpipeFunction
+                UIView.animate(withDuration: 2, animations: {
+                    self.layoutComposed.center = CGPoint(x: self.layoutComposed.center.x, y: self.layoutComposed.center.y - 200)
+                    self.swipeFunction(sendr: sender)
+                })
+            } else {
+                self.layoutComposed.transform = .identity
+            }
+        } else {
+            print("nop")
+        }
+    }
+    
+    
+    @objc func dragSwipeLeft(_ sender: UIPanGestureRecognizer){
+        let layoutView = sender.view!
+        let point = sender.translation(in: self.view)
+        // re paramettrer .center
+        layoutView.center = CGPoint(x: layoutView.center.x + point.x, y: layoutView.center.y)
+        // capter le mouvement du doigt dans la vue layoutComposed
+        let movement = sender.translation(in: layoutComposed)
+        // donner a la vue layoutComposed le mouvement verticale correspondant au mouvement du doigt
+        layoutComposed.transform = CGAffineTransform(translationX: movement.x, y: 0 )
+        // si l'utilisateur a finit sont mouvement
+        if sender.state == .ended {
+            // et que layoutComposed a swipé jusqu'à être à suffisament haut
+            if layoutView.center.x < -100 {
+                // alors déclencher l'animation qui envoie le layout loin et lance swpipeFunction
+                UIView.animate(withDuration: 2, animations: {
+                    self.layoutComposed.center = CGPoint(x: self.layoutComposed.center.x - 200, y: self.layoutComposed.center.y)
+                    self.swipeFunction(sendr: sender)
+                })
+            } else {
+                self.layoutComposed.transform = .identity
+            }
+        } else {
+            print("nop")
+        }
+    }
+    
     
     // function with in parameters the TGR activated
     @IBAction func didTapImage(_ sender: UITapGestureRecognizer){
@@ -44,8 +163,6 @@ class ViewController: UIViewController {
         present(vc, animated: true)
         
     }
-    
-    // test
     
     enum LayoutStyle {
         case left, center, right
@@ -125,60 +242,7 @@ class ViewController: UIViewController {
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragSwipe2(_:)))
-        layoutComposed.addGestureRecognizer(panGestureRecognizer)
-    }
-    // listen to orientation change
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        
-        coordinator.animate(alongsideTransition: { (context) in
-            guard let windowInterfaceOrientation = self.windowInterfaceOrientation else { return }
-            
-            if windowInterfaceOrientation.isLandscape {
-                print("je suis en paysage")
-                self.swipeGestureRecognizer.direction = .left
-                self.swipeLabel.text = "Swipe left to share"
-            } else if windowInterfaceOrientation.isPortrait {
-                print("je suis en portrait")
-                self.swipeGestureRecognizer.direction = .up
-                self.swipeLabel.text = "Swipe up to share"
-            }
-        })
-    }
-    
-    private var windowInterfaceOrientation: UIInterfaceOrientation? {
-        return UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation
-    }
-
-    @objc func dragSwipe2(_ sender: UIPanGestureRecognizer){
-        let layoutView = sender.view!
-        let point = sender.translation(in: self.view)
-// re paramettrer .center
-        layoutView.center = CGPoint(x: layoutView.center.x, y: layoutView.center.y + point.y)
-                let movement = sender.translation(in: layoutComposed)
-                layoutComposed.transform = CGAffineTransform(translationX: 0, y: movement.y )
-        print(layoutView.center.y)
-        if sender.state == .ended {
-            if layoutView.center.y < -90 {
-                print("on est a -90")
-                // déclenche l'animation qui envoie le layout loin et lance swpipeFunction
-                UIView.animate(withDuration: 2, animations: {
-                    self.layoutComposed.center = CGPoint(x: self.layoutComposed.center.x, y: self.layoutComposed.center.y - 200)
-                    // appeler swipeFunction
-                    self.swipeFunction(sendr: sender)
-                })
-            } else {
-                self.layoutComposed.transform = .identity
-            }
-        } else {
-            print("nop")
-        }
-    }
+ 
     
     func layoutComeBack(){
         UIView.animate(withDuration: 0.2) {
@@ -186,36 +250,8 @@ class ViewController: UIViewController {
         }
     }
     
-//// détermine si le mouvement est en cours finit ou annulé
-//    @objc func dragSwipe(_ sender: UIPanGestureRecognizer) {
-//        switch sender.state {
-//        case .began, .changed:
-//            print("began or changed")
-//            dragSwipeMovement(gesture: sender)
-//        case .cancelled, .ended:
-//            print("ended or cancelled")
-//            if isVisible(view: layoutComposed) {
-//                self.layoutComposed.transform = .identity
-//            } else {
-//                swipeFunction(sendr: sender)
-//            }
-//
-//        default:
-//            break
-//        }
-//    }
-//
-//// suit le mouvement
-//    func dragSwipeMovement(gesture: UIPanGestureRecognizer){
-//// stocker les données du mouvement du doigt dans la vue layoutComposed
-//        let movement = gesture.translation(in: layoutComposed)
-//// appliquer ses donnée à la vue pour la faire bouger
-//        layoutComposed.transform = CGAffineTransform(translationX: 0, y: movement.y * 2)
-//        self.position = CGAffineTransform(translationX: 0, y: movement.y * 2)
-//
-//    }
-
-// fonction de lancement de l'UIActivity controller
+    
+    // fonction de lancement de l'UIActivity controller
     @IBAction func swipeFunction(sendr: UIPanGestureRecognizer?){
         if sendr != nil {
             if let image = layoutComposed?.takeScreenshot() {
@@ -223,14 +259,14 @@ class ViewController: UIViewController {
                 present(activityviewcontroller, animated: true)
                 activityviewcontroller.completionWithItemsHandler = { activity, success, items, error in
                     
-//                    self.returnInitial()
+                    self.returnInitial()
                     self.layoutComeBack()
                 }
             }
         }
         
     }
-// re mets les + a la place des images
+    // re mets les + a la place des images
     func returnInitial() {
         displayLayout(layoutStyle: .center)
         self.topLeftImage.image = UIImage(named: "Plus")
@@ -241,18 +277,6 @@ class ViewController: UIViewController {
         self.bottomLeftImage.contentMode = .center
         self.bottomRightImage.image = UIImage(named: "Plus")
         self.bottomRightImage.contentMode = .center
-    }
- // detecte si la view est toujours à l'écran
-    func isVisible(view: UIView) -> Bool {
-        func isVisible(view: UIView, inView: UIView?) -> Bool {
-            guard let inView = inView else { return true }
-            let viewFrame = inView.convert(view.bounds, from: view)
-            if viewFrame.intersects(inView.bounds) {
-                return isVisible(view: view, inView: inView.superview)
-            }
-            return false
-        }
-        return isVisible(view: view, inView: view.superview)
     }
 }
 
