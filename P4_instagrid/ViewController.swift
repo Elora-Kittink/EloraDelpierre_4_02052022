@@ -38,13 +38,12 @@ class ViewController: UIViewController {
             action: #selector(dragSwipeUp(_:)))
         panGestureRecognizerLandscape = UIPanGestureRecognizer(
             target: self,
-            action: #selector(dragSwipeLeft(_:)))
-
+            action: #selector(dragSwipeUp(_:)))
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        print(self.windowInterfaceOrientation.isPortrait)
         if self.windowInterfaceOrientation.isPortrait {
             print("je suis en portrait !")
             self.isOrientationPortrait = true
@@ -56,6 +55,12 @@ class ViewController: UIViewController {
             
         }
     }
+    
+        func pictureControl() {
+            if topLeftImage.image && topRightImage.image && bottomLeftImage.image && bottomRightImage.image == "Plus" {
+                print("il manque une image")
+            }
+        }
     
     func swipeOrientation(){
         if isOrientationPortrait {
@@ -87,62 +92,34 @@ class ViewController: UIViewController {
             }
         })
     }
-    
+    // check orientation
     private var windowInterfaceOrientation: UIInterfaceOrientation {
         return UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation ?? .unknown
     }
     
+    // manage drag swipe UP movements
+
     @objc func dragSwipeUp(_ sender: UIPanGestureRecognizer){
-        let layoutView = sender.view!
-        let point = sender.translation(in: self.view)
-        // re paramettrer .center
-        layoutView.center = CGPoint(x: layoutView.center.x, y: layoutView.center.y + point.y)
-        // capter le mouvement du doigt dans la vue layoutComposed
-        let movement = sender.translation(in: layoutComposed)
-        // donner a la vue layoutComposed le mouvement verticale correspondant au mouvement du doigt
-        layoutComposed.transform = CGAffineTransform(translationX: 0, y: movement.y )
-        print(layoutView.center.y)
-        // si l'utilisateur a finit sont mouvement
-        if sender.state == .ended {
-            // et que layoutComposed a swipé jusqu'à être à suffisament haut
-            if layoutView.center.y < -90 {
-                // alors déclencher l'animation qui envoie le layout loin et lance swpipeFunction
-                UIView.animate(withDuration: 2, animations: {
-                    self.layoutComposed.center = CGPoint(x: self.layoutComposed.center.x, y: self.layoutComposed.center.y - 200)
-                    self.swipeFunction(sendr: sender)
-                })
-            } else {
-                self.layoutComposed.transform = .identity
+
+        if isOrientationPortrait {
+            let touch = sender.translation(in: self.view).y
+            if touch <= 1 {
+                print(touch)
+                UIView.animate(withDuration: 1) {
+                    self.layoutComposed.transform = CGAffineTransform(translationX: 0, y: -500)
+                } completion: { _ in
+                    self.shareFunction(sendr: sender)
+                }
             }
         } else {
-            print("nop")
-        }
-    }
-    
-    
-    @objc func dragSwipeLeft(_ sender: UIPanGestureRecognizer){
-        let layoutView = sender.view!
-        let point = sender.translation(in: self.view)
-        // re paramettrer .center
-        layoutView.center = CGPoint(x: layoutView.center.x + point.x, y: layoutView.center.y)
-        // capter le mouvement du doigt dans la vue layoutComposed
-        let movement = sender.translation(in: layoutComposed)
-        // donner a la vue layoutComposed le mouvement verticale correspondant au mouvement du doigt
-        layoutComposed.transform = CGAffineTransform(translationX: movement.x, y: 0 )
-        // si l'utilisateur a finit sont mouvement
-        if sender.state == .ended {
-            // et que layoutComposed a swipé jusqu'à être à suffisament haut
-            if layoutView.center.x < -100 {
-                // alors déclencher l'animation qui envoie le layout loin et lance swpipeFunction
-                UIView.animate(withDuration: 2, animations: {
-                    self.layoutComposed.center = CGPoint(x: self.layoutComposed.center.x - 200, y: self.layoutComposed.center.y)
-                    self.swipeFunction(sendr: sender)
-                })
-            } else {
-                self.layoutComposed.transform = .identity
+            let touch = sender.translation(in: self.view).x
+            if touch <= 0 {
+                UIView.animate(withDuration: 1) {
+                    self.layoutComposed.transform = CGAffineTransform(translationX: -500, y: 0 )
+                } completion: { _ in
+                    self.shareFunction(sendr: sender)
+                }
             }
-        } else {
-            print("nop")
         }
     }
     
@@ -242,17 +219,18 @@ class ViewController: UIViewController {
         
     }
     
- 
     
-    func layoutComeBack(){
-        UIView.animate(withDuration: 0.2) {
-            self.layoutComposed.center = self.view.center
+    // manage the return path if layoutComposed after send
+    func layoutComeBack(sender: UIPanGestureRecognizer){
+        UIView.animate(withDuration: 0.3) {
+            self.layoutComposed.transform = .identity
+            
         }
     }
     
     
     // fonction de lancement de l'UIActivity controller
-    @IBAction func swipeFunction(sendr: UIPanGestureRecognizer?){
+    @IBAction func shareFunction(sendr: UIPanGestureRecognizer?){
         if sendr != nil {
             if let image = layoutComposed?.takeScreenshot() {
                 let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -260,7 +238,7 @@ class ViewController: UIViewController {
                 activityviewcontroller.completionWithItemsHandler = { activity, success, items, error in
                     
                     self.returnInitial()
-                    self.layoutComeBack()
+                    self.layoutComeBack(sender: sendr!)
                 }
             }
         }
