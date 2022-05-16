@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     var panGestureRecognizerLandscape: UIPanGestureRecognizer!
     var isOrientationPortrait = true
     
+    var imageDeBase: UIImage = UIImage(named: "Plus") ?? UIImage()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         panGestureRecognizerPortrait = UIPanGestureRecognizer(
@@ -39,7 +41,7 @@ class ViewController: UIViewController {
         panGestureRecognizerLandscape = UIPanGestureRecognizer(
             target: self,
             action: #selector(dragSwipeUp(_:)))
-        
+        returnInitial()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,10 +58,14 @@ class ViewController: UIViewController {
         }
     }
     
-        func pictureControl() {
-            if topLeftImage.image && topRightImage.image && bottomLeftImage.image && bottomRightImage.image == "Plus" {
-                print("il manque une image")
+        func pictureControl() -> Bool {
+            let tableau: [UIImageView] = [topLeftImage, topRightImage, bottomLeftImage, bottomRightImage]
+            let filtered = tableau.filter { image in
+                guard let imageActuelle = image.image else { return false }
+                return !image.isHidden && imageActuelle.isEqual(imageDeBase)
+                
             }
+            return filtered.isEmpty
         }
     
     func swipeOrientation(){
@@ -103,7 +109,9 @@ class ViewController: UIViewController {
 
         if isOrientationPortrait {
             let touch = sender.translation(in: self.view).y
-            if touch <= 1 {
+            if pictureControl(){
+                print(pictureControl())
+            if touch <= 1  {
                 print(touch)
                 UIView.animate(withDuration: 1) {
                     self.layoutComposed.transform = CGAffineTransform(translationX: 0, y: -500)
@@ -111,14 +119,17 @@ class ViewController: UIViewController {
                     self.shareFunction(sendr: sender)
                 }
             }
+            }
         } else {
             let touch = sender.translation(in: self.view).x
-            if touch <= 0 {
+            if pictureControl(){
+            if touch <= 1 {
                 UIView.animate(withDuration: 1) {
                     self.layoutComposed.transform = CGAffineTransform(translationX: -500, y: 0 )
                 } completion: { _ in
                     self.shareFunction(sendr: sender)
                 }
+            }
             }
         }
     }
@@ -247,13 +258,13 @@ class ViewController: UIViewController {
     // re mets les + a la place des images
     func returnInitial() {
         displayLayout(layoutStyle: .center)
-        self.topLeftImage.image = UIImage(named: "Plus")
+        self.topLeftImage.image = imageDeBase
         self.topLeftImage.contentMode = .center
-        self.topRightImage.image = UIImage(named: "Plus")
+        self.topRightImage.image = imageDeBase
         self.topRightImage.contentMode = .center
-        self.bottomLeftImage.image = UIImage(named: "Plus")
+        self.bottomLeftImage.image = imageDeBase
         self.bottomLeftImage.contentMode = .center
-        self.bottomRightImage.image = UIImage(named: "Plus")
+        self.bottomRightImage.image = imageDeBase
         self.bottomRightImage.contentMode = .center
     }
 }

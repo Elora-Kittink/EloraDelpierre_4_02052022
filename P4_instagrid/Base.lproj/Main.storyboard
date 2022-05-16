@@ -66,7 +66,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jgA-jY-KJ6" userLabel="Top Stack View ">
                                                         <rect key="frame" x="10" y="10" width="240" height="115"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" tag="10" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="PKl-df-3w2" userLabel="topL">
+                                                            <imageView clipsSubviews="YES" tag="10" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PKl-df-3w2" userLabel="topL">
                                                                 <rect key="frame" x="0.0" y="0.0" width="115" height="115"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
@@ -74,7 +74,7 @@
                                                                     <outletCollection property="gestureRecognizers" destination="00B-Hp-7Gw" appends="YES" id="fxy-y6-y0g"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <imageView clipsSubviews="YES" tag="20" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="XsO-Mz-7gX" userLabel="topR">
+                                                            <imageView clipsSubviews="YES" tag="20" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XsO-Mz-7gX" userLabel="topR">
                                                                 <rect key="frame" x="125" y="0.0" width="115" height="115"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
@@ -87,7 +87,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RMe-yW-N4O" userLabel="Bottom Stack View">
                                                         <rect key="frame" x="10" y="135" width="240" height="115"/>
                                                         <subviews>
-                                                            <imageView hidden="YES" clipsSubviews="YES" tag="30" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="m4H-CG-goF" userLabel="bottomL">
+                                                            <imageView hidden="YES" clipsSubviews="YES" tag="30" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="m4H-CG-goF" userLabel="bottomL">
                                                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="115"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
@@ -95,7 +95,7 @@
                                                                     <outletCollection property="gestureRecognizers" destination="8cw-di-Lcg" appends="YES" id="dYN-AQ-va9"/>
                                                                 </connections>
                                                             </imageView>
-                                                            <imageView clipsSubviews="YES" tag="40" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plus" translatesAutoresizingMaskIntoConstraints="NO" id="yKr-rW-6RX" userLabel="bottomR">
+                                                            <imageView clipsSubviews="YES" tag="40" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yKr-rW-6RX" userLabel="bottomR">
                                                                 <rect key="frame" x="0.0" y="0.0" width="240" height="115"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <gestureRecognizers/>
@@ -296,7 +296,6 @@
         <image name="Arrow Left" width="3.5" height="4.5"/>
         <image name="Arrow Up" width="4.5" height="3.5"/>
         <image name="Instagrid" width="41.5" height="13"/>
-        <image name="Plus" width="13.5" height="13.5"/>
         <image name="layout1" width="27" height="27"/>
         <image name="layout2" width="27" height="27"/>
         <image name="layout3" width="27" height="27"/>
