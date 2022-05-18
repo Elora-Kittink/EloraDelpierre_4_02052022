@@ -10,6 +10,7 @@
 
 import SwiftUI
 import UIKit
+import PhotosUI
 
 class ViewController: UIViewController {
     
@@ -35,6 +36,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         panGestureRecognizerPortrait = UIPanGestureRecognizer(
             target: self,
             action: #selector(dragSwipeUp(_:)))
@@ -43,6 +45,18 @@ class ViewController: UIViewController {
             action: #selector(dragSwipeUp(_:)))
         returnInitial()
     }
+    
+
+    
+    func goToAppPrivacySettings() {
+            guard let url = URL(string: UIApplication.openSettingsURLString),
+                UIApplication.shared.canOpenURL(url) else {
+                    assertionFailure("Not able to open App privacy settings")
+                    return
+            }
+
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -137,19 +151,68 @@ class ViewController: UIViewController {
     
     // function with in parameters the TGR activated
     @IBAction func didTapImage(_ sender: UITapGestureRecognizer){
-        // transform the sender view in an image view
         guard let senderImageView = sender.view as? UIImageView else {
-            return
-        }
-        // update de global var with the image view just tapped
-        imageView = senderImageView
-        // picker controller process
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true)
+                    return
+                }
+                // update de global var with the image view just tapped
+                imageView = senderImageView
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            PHPhotoLibrary.requestAuthorization { (status ) in
+                switch status {
+                    
         
+                case .limited:
+                    showPopup(title: "Photo library access limited", message: "photo library access previously limited, you must change in settings .", okButton: false, settingsButton: true, cancelButton: true)
+                    
+                case .authorized:
+                    DispatchQueue.main.async {
+                        let myPickerController = UIImagePickerController()
+                        myPickerController.sourceType = .photoLibrary
+                        myPickerController.delegate = self
+                        myPickerController.allowsEditing = true
+                        self.present(myPickerController, animated: true)
+                    }
+                case .notDetermined: break
+                    
+                case .restricted:
+                    showPopup(title: "Photo library access restricted",
+                              message: "photo library access is restricted and cannot be accessed.",
+                              okButton: true,
+                              settingsButton: false, cancelButton: false)
+                    
+                case .denied:
+                    showPopup(title: "Photo library access denied", message: "photo library access previously denied, you must change in settings .", okButton: false, settingsButton: true, cancelButton: true)
+                    
+                }
+            }
+        }
+        
+        func showPopup(title: String, message: String, okButton: Bool, settingsButton: Bool, cancelButton: Bool) {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                let ok = UIAlertAction(title: "ok", style: .default)
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+                let goInSettingsButton = UIAlertAction(title: "go to settings", style: .default){ (action) in
+                    DispatchQueue.main.async {
+                        let url = URL(string: UIApplicationOpenNotificationSettingsURLString)!
+                        UIApplication.shared.open(url, options: [:])
+                    }
+                }
+                
+                
+                
+                if settingsButton {
+                    alert.addAction(goInSettingsButton)
+                }
+                if cancelButton {
+                    alert.addAction(cancel)
+                }
+                if okButton {
+                    alert.addAction(ok)
+                }
+                self.present(alert, animated: true)
+            }
+        }
     }
     
     enum LayoutStyle {
@@ -277,8 +340,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // convert in an image and launch it in the current imageView global var
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            imageView?.image = image
-            imageView?.contentMode = .scaleAspectFill        }
+            self.imageView?.image = image
+            self.imageView?.contentMode = .scaleAspectFill        }
         // close the window when finish
         picker.dismiss(animated: true, completion: nil)
         
