@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         if isOrientationPortrait {
             let touch = sender.translation(in: self.view).y
             if pictureControl(){
-                print(pictureControl())
+                print("grille pleine")
             if touch <= 1  {
                 print(touch)
                 UIView.animate(withDuration: 1) {
@@ -133,7 +133,11 @@ class ViewController: UIViewController {
                     self.shareFunction(sendr: sender)
                 }
             }
+                // si la grille n'est pas correctement remplie
+               
             }
+        
+            shakeAnimation()
         } else {
             let touch = sender.translation(in: self.view).x
             if pictureControl(){
@@ -145,7 +149,19 @@ class ViewController: UIViewController {
                 }
             }
             }
+            shakeAnimation()
         }
+    }
+    
+    func shakeAnimation(){
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: layoutComposed.center.x - 10, y: layoutComposed.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: layoutComposed.center.x + 10, y: layoutComposed.center.y))
+
+        layoutComposed.layer.add(animation, forKey: "position")
     }
     
     
@@ -159,8 +175,7 @@ class ViewController: UIViewController {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             PHPhotoLibrary.requestAuthorization { (status ) in
                 switch status {
-                    
-        
+            
                 case .limited:
                     showPopup(title: "Photo library access limited", message: "photo library access previously limited, you must change in settings .", okButton: false, settingsButton: true, cancelButton: true)
                     
