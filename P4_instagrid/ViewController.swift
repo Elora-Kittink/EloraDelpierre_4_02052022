@@ -5,21 +5,16 @@
 //  Created by Elora on 29/04/2022.
 //
 
-//PHPhotoLibrary.requestAuthorization   pour gérer le cas ou l'utilisateur de donne pas son autorisation??
-
-
 import SwiftUI
 import UIKit
 import PhotosUI
 
 class ViewController: UIViewController {
     
-    // global var stocking the image view tapped
     weak var imageView: UIImageView?
-    var position: CGAffineTransform?
+    
     @IBOutlet weak var swipeLabel: UILabel!
     @IBOutlet weak var layoutComposed: UIView!
-    @IBOutlet weak var swipeStackView: UIStackView!
     @IBOutlet weak var topLeftImage: UIImageView!
     @IBOutlet weak var topRightImage: UIImageView!
     @IBOutlet weak var bottomLeftImage: UIImageView!
@@ -32,11 +27,11 @@ class ViewController: UIViewController {
     var panGestureRecognizerLandscape: UIPanGestureRecognizer!
     var isOrientationPortrait = true
     
-    var imageDeBase: UIImage = UIImage(named: "Plus") ?? UIImage()
+    var plusImage: UIImage = UIImage(named: "Plus") ?? UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         panGestureRecognizerPortrait = UIPanGestureRecognizer(
             target: self,
             action: #selector(dragSwipeUp(_:)))
@@ -46,42 +41,28 @@ class ViewController: UIViewController {
         returnInitial()
     }
     
-
-    
-    func goToAppPrivacySettings() {
-            guard let url = URL(string: UIApplication.openSettingsURLString),
-                UIApplication.shared.canOpenURL(url) else {
-                    assertionFailure("Not able to open App privacy settings")
-                    return
-            }
-
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if self.windowInterfaceOrientation.isPortrait {
-            print("je suis en portrait !")
             self.isOrientationPortrait = true
             swipeOrientation()
         } else {
             self.isOrientationPortrait = false
             swipeOrientation()
-            print("je suis en paysage !")
-            
         }
     }
     
-        func pictureControl() -> Bool {
-            let tableau: [UIImageView] = [topLeftImage, topRightImage, bottomLeftImage, bottomRightImage]
-            let filtered = tableau.filter { image in
-                guard let imageActuelle = image.image else { return false }
-                return !image.isHidden && imageActuelle.isEqual(imageDeBase)
-                
-            }
-            return filtered.isEmpty
+    // check the layout has been completed
+    func pictureControl() -> Bool {
+        let tableau: [UIImageView] = [topLeftImage, topRightImage, bottomLeftImage, bottomRightImage]
+        let filtered = tableau.filter { image in
+            guard let imageActuelle = image.image else { return false }
+            return !image.isHidden && imageActuelle.isEqual(plusImage)
         }
+        return filtered.isEmpty
+    }
     
+    // add and remove the swipe gesture recognizer matching the orientation
     func swipeOrientation(){
         if isOrientationPortrait {
             layoutComposed.addGestureRecognizer(panGestureRecognizerPortrait)
@@ -93,19 +74,14 @@ class ViewController: UIViewController {
     }
     
     // listen to orientation change
-    
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        
         coordinator.animate(alongsideTransition: { (context) in
-            
             if self.windowInterfaceOrientation.isLandscape {
-                print("je suis en paysage")
                 self.isOrientationPortrait = false
                 self.swipeOrientation()
                 self.swipeLabel.text = "Swipe left to share"
             } else if self.windowInterfaceOrientation.isPortrait {
-                print("je suis en portrait")
                 self.isOrientationPortrait = true
                 self.swipeOrientation()
                 self.swipeLabel.text = "Swipe up to share"
@@ -118,41 +94,44 @@ class ViewController: UIViewController {
     }
     
     // manage drag swipe UP movements
-
     @objc func dragSwipeUp(_ sender: UIPanGestureRecognizer){
-
+        // check orientation
         if isOrientationPortrait {
             let touch = sender.translation(in: self.view).y
+            // check if layout is complete
             if pictureControl(){
-                print("grille pleine")
-            if touch <= 1  {
-                print(touch)
-                UIView.animate(withDuration: 1) {
-                    self.layoutComposed.transform = CGAffineTransform(translationX: 0, y: -500)
-                } completion: { _ in
-                    self.shareFunction(sendr: sender)
+                // check the movement is going up
+                if touch <= 1  {
+                    print(touch)
+                    UIView.animate(withDuration: 1) {
+                        self.layoutComposed.transform = CGAffineTransform(translationX: 0, y: -500)
+                    } completion: { _ in
+                        self.shareFunction(sendr: sender)
+                    }
                 }
+            } else {
+                // if layoutcomposed is not complete, block share and shake to alert user
+                shakeAnimation()
             }
-                // si la grille n'est pas correctement remplie
-               
-            }
-        
-            shakeAnimation()
+            
         } else {
             let touch = sender.translation(in: self.view).x
             if pictureControl(){
-            if touch <= 1 {
-                UIView.animate(withDuration: 1) {
-                    self.layoutComposed.transform = CGAffineTransform(translationX: -500, y: 0 )
-                } completion: { _ in
-                    self.shareFunction(sendr: sender)
+                if touch <= 1 {
+                    UIView.animate(withDuration: 1) {
+                        self.layoutComposed.transform = CGAffineTransform(translationX: -500, y: 0 )
+                    } completion: { _ in
+                        self.shareFunction(sendr: sender)
+                    }
                 }
+            } else {
+                // if layoutcomposed is not complete, block share and shake to alert user
+                shakeAnimation()
             }
-            }
-            shakeAnimation()
         }
     }
     
+    // animation shake like
     func shakeAnimation(){
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07
@@ -160,22 +139,22 @@ class ViewController: UIViewController {
         animation.autoreverses = true
         animation.fromValue = NSValue(cgPoint: CGPoint(x: layoutComposed.center.x - 10, y: layoutComposed.center.y))
         animation.toValue = NSValue(cgPoint: CGPoint(x: layoutComposed.center.x + 10, y: layoutComposed.center.y))
-
+        
         layoutComposed.layer.add(animation, forKey: "position")
     }
     
     
-    // function with in parameters the TGR activated
+    // check access permission and call the imagepickercontroller delegate
     @IBAction func didTapImage(_ sender: UITapGestureRecognizer){
         guard let senderImageView = sender.view as? UIImageView else {
-                    return
-                }
-                // update de global var with the image view just tapped
-                imageView = senderImageView
+            return
+        }
+        // update de global var with the image view just tapped
+        imageView = senderImageView
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             PHPhotoLibrary.requestAuthorization { (status ) in
                 switch status {
-            
+                    
                 case .limited:
                     showPopup(title: "Photo library access limited", message: "photo library access previously limited, you must change in settings .", okButton: false, settingsButton: true, cancelButton: true)
                     
@@ -202,6 +181,7 @@ class ViewController: UIViewController {
             }
         }
         
+        // launch a custom popup depending on the permission status
         func showPopup(title: String, message: String, okButton: Bool, settingsButton: Bool, cancelButton: Bool) {
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -213,9 +193,6 @@ class ViewController: UIViewController {
                         UIApplication.shared.open(url, options: [:])
                     }
                 }
-                
-                
-                
                 if settingsButton {
                     alert.addAction(goInSettingsButton)
                 }
@@ -230,6 +207,18 @@ class ViewController: UIViewController {
         }
     }
     
+    // sending to the phone settings
+    func goToAppPrivacySettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else {
+            assertionFailure("Not able to open App privacy settings")
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    // manage the layout composition
     enum LayoutStyle {
         case left, center, right
         
@@ -275,7 +264,6 @@ class ViewController: UIViewController {
     
     // func with in parametres the TGR activated
     @IBAction func changeLayout(_ sender: UITapGestureRecognizer){
-        // switch on the tag depending on the sender in parameter
         
         let layoutChosen = sender.view?.tag
         var layoutStyle: LayoutStyle
@@ -299,6 +287,8 @@ class ViewController: UIViewController {
         displayLayout(layoutStyle: layoutStyle)
     }
     
+    // display the layout according to the layout composition choose before
+    
     func displayLayout(layoutStyle: LayoutStyle) {
         topLeftImage.isHidden = layoutStyle.topLeftImage
         bottomLeftImage.isHidden = layoutStyle.bottomLeftImageIsHidden
@@ -318,14 +308,14 @@ class ViewController: UIViewController {
     }
     
     
-    // fonction de lancement de l'UIActivity controller
-    @IBAction func shareFunction(sendr: UIPanGestureRecognizer?){
+    // launch UIActivity controller
+ func shareFunction(sendr: UIPanGestureRecognizer?){
         if sendr != nil {
             if let image = layoutComposed?.takeScreenshot() {
                 let activityviewcontroller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
                 present(activityviewcontroller, animated: true)
                 activityviewcontroller.completionWithItemsHandler = { activity, success, items, error in
-                    
+                    // after sharing, empty the photos and return at initial place
                     self.returnInitial()
                     self.layoutComeBack(sender: sendr!)
                 }
@@ -333,16 +323,16 @@ class ViewController: UIViewController {
         }
         
     }
-    // re mets les + a la place des images
+    // re put the + image in place of image
     func returnInitial() {
         displayLayout(layoutStyle: .center)
-        self.topLeftImage.image = imageDeBase
+        self.topLeftImage.image = plusImage
         self.topLeftImage.contentMode = .center
-        self.topRightImage.image = imageDeBase
+        self.topRightImage.image = plusImage
         self.topRightImage.contentMode = .center
-        self.bottomLeftImage.image = imageDeBase
+        self.bottomLeftImage.image = plusImage
         self.bottomLeftImage.contentMode = .center
-        self.bottomRightImage.image = imageDeBase
+        self.bottomRightImage.image = plusImage
         self.bottomRightImage.contentMode = .center
     }
 }
@@ -351,7 +341,7 @@ class ViewController: UIViewController {
 // extension for the pickercontroller
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    //
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // convert in an image and launch it in the current imageView global var
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
@@ -381,9 +371,6 @@ extension UIView {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        //        guard let image = image else {
-        //            return UIImage()
-        //        }
         return image ?? UIImage()
     }
 }

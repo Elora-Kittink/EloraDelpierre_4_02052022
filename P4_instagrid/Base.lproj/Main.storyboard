@@ -233,7 +233,6 @@
                         <outlet property="layout3selected" destination="OM1-5C-pNw" id="9QN-9Z-UaE"/>
                         <outlet property="layoutComposed" destination="hW6-wA-SNg" id="WkF-vT-AeY"/>
                         <outlet property="swipeLabel" destination="NtQ-1o-b1P" id="Zbz-pD-lfi"/>
-                        <outlet property="swipeStackView" destination="jqT-UO-Apl" id="gi9-M8-gxs"/>
                         <outlet property="topLeftImage" destination="PKl-df-3w2" id="M5T-pI-TSv"/>
                         <outlet property="topRightImage" destination="XsO-Mz-7gX" id="6kd-tU-Obd"/>
                     </connections>
