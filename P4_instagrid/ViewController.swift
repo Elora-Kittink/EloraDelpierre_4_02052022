@@ -131,7 +131,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // animation shake like
+    // animation launch when user try to share uncomplete photo grid
     func shakeAnimation(){
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07
@@ -262,7 +262,7 @@ class ViewController: UIViewController {
     
     
     
-    // func with in parametres the TGR activated
+    // switch in layout enum
     @IBAction func changeLayout(_ sender: UITapGestureRecognizer){
         
         let layoutChosen = sender.view?.tag
@@ -299,7 +299,7 @@ class ViewController: UIViewController {
     }
     
     
-    // manage the return path if layoutComposed after send
+    // return the grid to its original position after sharing
     func layoutComeBack(sender: UIPanGestureRecognizer){
         UIView.animate(withDuration: 0.3) {
             self.layoutComposed.transform = .identity
