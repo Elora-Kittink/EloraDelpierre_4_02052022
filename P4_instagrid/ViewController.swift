@@ -104,7 +104,7 @@ class ViewController: UIViewController {
                 if touch <= 1  {
                     print(touch)
                     UIView.animate(withDuration: 1) {
-                        self.layoutComposed.transform = CGAffineTransform(translationX: 0, y: -500)
+                        self.layoutComposed.transform = CGAffineTransform(translationX: 0, y: -650)
                     } completion: { _ in
                         self.shareFunction(sendr: sender)
                     }
@@ -119,7 +119,7 @@ class ViewController: UIViewController {
             if pictureControl(){
                 if touch <= 1 {
                     UIView.animate(withDuration: 1) {
-                        self.layoutComposed.transform = CGAffineTransform(translationX: -500, y: 0 )
+                        self.layoutComposed.transform = CGAffineTransform(translationX: -650, y: 0 )
                     } completion: { _ in
                         self.shareFunction(sendr: sender)
                     }
@@ -189,7 +189,9 @@ class ViewController: UIViewController {
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel)
                 let goInSettingsButton = UIAlertAction(title: "go to settings", style: .default){ (action) in
                     DispatchQueue.main.async {
-                        let url = URL(string: UIApplicationOpenNotificationSettingsURLString)!
+                        guard let url = URL(string: UIApplicationOpenNotificationSettingsURLString) else {
+                            return
+                        }
                         UIApplication.shared.open(url, options: [:])
                     }
                 }
